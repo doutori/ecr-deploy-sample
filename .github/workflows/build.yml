@@ -25,5 +25,5 @@ jobs:
 
       - name: Run build image
         run: |
-          docker build --target production -t $ECR_REGISTRY/$ECR_REPOSITORY:latest-app -f docker/app/Dockerfile .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest-app
+          docker build --target production -t ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:latest-app -f docker/app/Dockerfile .
+          docker push ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:latest-app

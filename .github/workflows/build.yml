@@ -1,7 +1,9 @@
-name: build
+name: build and push
 on:
-  pull_request:
-    types: [opened, synchronize]
+  push:
+#  pull_request:
+#    types: [opened, synchronize]
+
 jobs:
   build:
     name: build docker image
@@ -9,6 +11,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
       - name: Run build image
         run: |
-          docker build --target production -t build:test -f docker/app/Dockerfile .
+          docker build --target production -t latest-app -f docker/app/Dockerfile .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest-app

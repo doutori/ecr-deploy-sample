@@ -1,12 +1,12 @@
-name: build and push
+name: build and push images to ECR
 on:
   push:
-#  pull_request:
-#    types: [opened, synchronize]
+    branches:
+      - 'master'
 
 jobs:
   build:
-    name: build docker image
+    name: build and push docker image
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -23,7 +23,18 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Run build image
+      - name: Run build and Push App image
+        env:
+          ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
+          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
         run: |
-          docker build --target production -t ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:latest-app -f docker/app/Dockerfile .
-          docker push ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:latest-app
+          docker build --target production -t $ECR_REGISTRY/$.ECR_REPOSITORY:latest-app -f docker/app/Dockerfile .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest-app
+
+      - name: Run build and Push Web image
+        env:
+          ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
+          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+        run: |
+          docker build --target production -t $ECR_REGISTRY/$.ECR_REPOSITORY:latest-app -f docker/web/Dockerfile .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest-web

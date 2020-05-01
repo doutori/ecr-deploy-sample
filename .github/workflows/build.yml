@@ -36,5 +36,5 @@ jobs:
           ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
           ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
         run: |
-          docker build --target production -t $ECR_REGISTRY/$.ECR_REPOSITORY:latest-app -f docker/web/Dockerfile .
+          docker build --target production -t $ECR_REGISTRY/$ECR_REPOSITORY:latest-app -f docker/web/Dockerfile .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest-web

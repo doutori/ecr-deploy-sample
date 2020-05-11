@@ -1,7 +1,7 @@
 name: build and push images to ECR
-#on:
-#  push:
-#    branches:
+on:
+  push:
+    branches:
 #      - 'master'
 
 jobs:

@@ -26,7 +26,7 @@ const Layout: React.FC<LayoutProps> = ({
         <main>{children}</main>
         <footer>
             <small>
-                Copyright &copy; since 1987 Kotaro Chiba I`m from Yokohama.
+                Copyright &copy; since 1987 Kotaro Chiba I`m from Yokohama
             </small>
         </footer>
     </>
